@@ -1,0 +1,23 @@
+// Bot Handler Logic for XPulse: The Tribunal
+
+// Message Handler
+// This is triggered when a user messages the bot directly
+message = message.get("text");
+if (message.contains("help")) {
+    response = Map();
+    response.put("text", "I am the Tribunal Bot. I handle invoice approvals.");
+    return response;
+}
+
+// Function to post Adaptive Card (called via API or Webhook)
+// Note: This logic usually resides in the backend which calls Cliq API, 
+// but if using Deluge-based bot, here is a snippet.
+
+/*
+params = Map();
+params.put("text", "New Invoice for Approval");
+params.put("card", adaptive_card_json); // Load from JSON
+zoho.cliq.postToChannel("tribunal_channel", params);
+*/
+
+return Map();

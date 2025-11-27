@@ -1,0 +1,78 @@
+{
+    "type": "adaptive_card",
+    "version": "1.0",
+    "body": [
+        {
+            "type": "text",
+            "text": "🚨 **Tribunal Activated**",
+            "size": "large",
+            "weight": "bold",
+            "color": "attention"
+        },
+        {
+            "type": "text",
+            "text": "Invoice #INV-001 requires forensic audit."
+        },
+        {
+            "type": "column_set",
+            "columns": [
+                {
+                    "type": "column",
+                    "items": [
+                        {
+                            "type": "text",
+                            "text": "Amount",
+                            "weight": "bold"
+                        },
+                        {
+                            "type": "text",
+                            "text": "$5,000.00"
+                        }
+                    ]
+                },
+                {
+                    "type": "column",
+                    "items": [
+                        {
+                            "type": "text",
+                            "text": "Payer",
+                            "weight": "bold"
+                        },
+                        {
+                            "type": "text",
+                            "text": "Acme Corp"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "type": "button",
+            "label": "✅ Approve",
+            "action": {
+                "type": "invoke.function",
+                "name": "approve_invoice",
+                "data": {
+                    "action": "approve",
+                    "invoice_id": "INV-001"
+                }
+            },
+            "style": "positive"
+        },
+        {
+            "type": "button",
+            "label": "❌ Flag",
+            "action": {
+                "type": "invoke.function",
+                "name": "flag_invoice",
+                "data": {
+                    "action": "flag",
+                    "invoice_id": "INV-001"
+                }
+            },
+            "style": "danger"
+        }
+    ]
+}

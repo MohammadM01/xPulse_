@@ -1,0 +1,38 @@
+/*
+ * Zoho Books Custom Button Script: "Mint to Polygon"
+ * 
+ * Instructions:
+ * 1. Go to Settings -> Preferences -> Invoices.
+ * 2. Click "Field Customization" -> "Custom Buttons" -> "+ New Custom Button".
+ * 3. Name: "Mint to Polygon".
+ * 4. Position: "List View" or "Details View".
+ * 5. Paste this script.
+ * 6. Replace 'YOUR_BACKEND_URL' with your actual URL (e.g., https://xpulse.onrender.com).
+ */
+
+invoiceID = invoice.get("invoice_id");
+amount = invoice.get("total");
+customerName = invoice.get("customer_name");
+
+// Prepare Payload
+payload = Map();
+payload.put("invoice_id", invoiceID);
+payload.put("amount", amount);
+payload.put("payer_name", customerName);
+
+// Call XPulse Backend
+response = invokeurl
+[
+	url :"YOUR_BACKEND_URL/api/v1/direct-mint"
+	type :POST
+	parameters :payload.toString()
+    headers : {"Content-Type": "application/json"}
+];
+
+info response;
+
+if (response.get("status") == "minting_started") {
+	return "✅ Minting Process Started!";
+} else {
+	return "❌ Error: " + response.get("reason");
+}

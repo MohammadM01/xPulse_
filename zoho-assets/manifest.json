@@ -1,0 +1,20 @@
+{
+    "service": "ZOOHO_BOOKS",
+    "id": "xpulse_tribunal",
+    "type": "extension",
+    "version": "1.0.0",
+    "modules": [
+        {
+            "type": "web_tab",
+            "name": "Link Wallet",
+            "location": "settings",
+            "url": "/widget/settings"
+        }
+    ],
+    "connectors": [
+        {
+            "name": "XPulse Backend",
+            "url": "https://your-backend-url.com/api/v1"
+        }
+    ]
+}

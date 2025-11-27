@@ -1,0 +1,11 @@
+INFO:     Started server process [3476]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://localhost:8000 (Press CTRL+C to quit)
+Running Direct Mint task synchronously for INV-MANUAL-001
+Starting minting process for Invoice INV-MANUAL-001 with approvers ['MANUAL_TRIGGER']
+Generated Data Hash: 1146f9ec351cb09c04b1982c285d38fea79c171e104cd769009d1367e4d0c6fb
+Minted! Tx Hash: 0xMOCKED_TRANSACTION_HASH_INV-MANUAL-001
+Should update Cliq message for INV-MANUAL-001 to SUCCESS
+INFO:     ::1:63584 - "POST /api/v1/direct-mint HTTP/1.1" 200 OK
+INFO:     ::1:63585 - "GET /api/v1/widget/history?user_id=test_user HTTP/1.1" 200 OK

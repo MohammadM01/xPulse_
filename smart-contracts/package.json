@@ -1,0 +1,17 @@
+{
+  "name": "xpulse-tribunal-contracts",
+  "version": "1.0.0",
+  "description": "Smart contracts for XPulse: The Tribunal",
+  "scripts": {
+    "test": "hardhat test",
+    "compile": "hardhat compile",
+    "deploy": "hardhat run scripts/deploy.ts"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "hardhat": "^2.19.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.3.2",
+    "dotenv": "^16.3.1"
+  }
+}
