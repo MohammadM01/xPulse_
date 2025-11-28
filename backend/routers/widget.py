@@ -14,8 +14,14 @@ def widget_history(db: Session = Depends(get_db)):
     """
     # Debug: Return simple text to verify rendering
     zml = {
-        "type": "text",
-        "text": "xPulse Widget is Online! 🚀"
+        "type": "page",
+        "children": [
+            {
+                "type": "text",
+                "text": "xPulse Widget is Online! 🚀"
+            }
+        ]
     }
     
-    return {"output": zml}
+    # Return ZML directly (no "output" wrapper)
+    return zml

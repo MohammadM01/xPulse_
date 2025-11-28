@@ -34,7 +34,7 @@ response = invokeurl
 	type :GET
 ];
 
-return response.get("output");
+return response;
 ```
 
 4.  **Save** the script.
@@ -43,4 +43,20 @@ return response.get("output");
 1.  Go back to the main Zoho Cliq interface.
 2.  Look at the **Right Sidebar** (Widgets bar).
 3.  Click the **xPulse Tribunal** icon.
-4.  You should see the **Minted** and **Pending** tabs!
+4.  You should see "xPulse Widget is Online! 🚀".
+
+## 🛠️ Troubleshooting
+If it still doesn't work, try pasting this **Hardcoded Script** in the Deluge editor to verify your Widget settings are correct:
+
+```javascript
+return {
+    "type": "page",
+    "children": [
+        {
+            "type": "text",
+            "text": "Hardcoded Test: Widget is working!"
+        }
+    ]
+};
+```
+If this works, the issue is with the Backend URL or connection.
