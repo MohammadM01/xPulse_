@@ -16,37 +16,26 @@ def widget_history(db: Session = Depends(get_db)):
     pending = db.query(Invoice).filter(Invoice.status == "pending_tribunal").order_by(Invoice.created_at.desc()).limit(5).all()
     minted = db.query(Invoice).filter(Invoice.status == "minted").order_by(Invoice.created_at.desc()).limit(5).all()
     
-    def build_table(invoices, title):
+    def build_list(invoices, title):
         if not invoices:
             return {"type": "text", "text": f"No {title} invoices found.", "color": "grey"}
             
-        rows = []
-        # Header
-        rows.append({
-            "type": "row",
-            "children": [
-                {"type": "text", "text": "ID", "weight": "bold"},
-                {"type": "text", "text": "Amount", "weight": "bold"},
-                {"type": "text", "text": "Status", "weight": "bold"}
-            ]
-        })
-        
+        elements = []
         for inv in invoices:
             status_icon = "✅" if inv.status == "minted" else "⏳"
-            rows.append({
-                "type": "row",
-                "children": [
-                    {"type": "text", "text": inv.id},
-                    {"type": "text", "text": f"${inv.amount}"},
-                    {"type": "text", "text": f"{status_icon} {inv.status}"}
-                ]
+            elements.append({
+                "type": "text", 
+                "text": f"{status_icon} Invoice #{inv.id} | ${inv.amount}",
+                "weight": "bold"
             })
+            elements.append({
+                "type": "text",
+                "text": f"Status: {inv.status}",
+                "color": "grey"
+            })
+            elements.append({"type": "divider"})
         
-        return {
-            "type": "table",
-            "title": title,
-            "data": rows
-        }
+        return {"type": "container", "children": elements}
 
     # Construct ZML with Tabs
     zml = {
@@ -57,7 +46,7 @@ def widget_history(db: Session = Depends(get_db)):
                 "id": "minted",
                 "elements": [
                     {"type": "title", "text": "Verified On-Chain"},
-                    build_table(minted, "Minted Invoices")
+                    build_list(minted, "Minted Invoices")
                 ]
             },
             {
@@ -65,7 +54,7 @@ def widget_history(db: Session = Depends(get_db)):
                 "id": "pending",
                 "elements": [
                     {"type": "title", "text": "Awaiting Approval"},
-                    build_table(pending, "Pending Invoices")
+                    build_list(pending, "Pending Invoices")
                 ]
             }
         ]

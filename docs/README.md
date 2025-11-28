@@ -8,6 +8,7 @@
 - **[Deployment Guide](DEPLOYMENT.md)**: How to deploy to Render or use Ngrok.
 - **[User Guide](USER_GUIDE.md)**: Step-by-step instructions for the demo flow.
 - **[Button Setup Guide](ZOHO_BUTTON_SETUP.md)**: Detailed instructions for configuring the Zoho Books button.
+- **[Widget Setup Guide](WIDGET_SETUP.md)**: How to add the sidebar widget in Zoho Cliq.
 - **[Hackathon Submission Info](SUBMISSION.md)**: Project description and video script.
 
 ### 2. Backend Setup
