@@ -49,14 +49,11 @@ return response;
 If it still doesn't work, try pasting this **Hardcoded Script** in the Deluge editor to verify your Widget settings are correct:
 
 ```javascript
-return {
-    "type": "page",
-    "children": [
-        {
-            "type": "text",
-            "text": "Hardcoded Test: Widget is working!"
-        }
-    ]
-};
+// Hardcoded Test: HTML
+page = Map();
+page.put("type", "html");
+page.put("html", "<h1>It Works!</h1>");
+
+return page;
 ```
 If this works, the issue is with the Backend URL or connection.

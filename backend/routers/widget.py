@@ -12,16 +12,11 @@ def widget_history(db: Session = Depends(get_db)):
     """
     Return Rich ZML for the sidebar widget.
     """
-    # Debug: Return simple text to verify rendering
+    # Debug: Return HTML (easier to render)
     zml = {
-        "type": "page",
-        "children": [
-            {
-                "type": "text",
-                "text": "xPulse Widget is Online! 🚀"
-            }
-        ]
+        "type": "html",
+        "html": "<h1>xPulse Widget Online 🚀</h1><p>If you see this, the connection is working!</p>"
     }
     
-    # Return ZML directly (no "output" wrapper)
+    # Return ZML directly
     return zml

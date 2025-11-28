@@ -9,6 +9,16 @@ app = FastAPI(
     openapi_url=f"{settings.API_V1_STR}/openapi.json"
 )
 
+# Add CORS
+from fastapi.middleware.cors import CORSMiddleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # Create tables on startup (for SQLite demo)
 from backend.database import engine, Base
 import backend.models # Import models to register them with Base
