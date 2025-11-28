@@ -13,7 +13,7 @@
     ],
     "connectors": [
         {
-            "name": "XPulse Backend",
+            "name": "xPulse",
             "url": "https://your-backend-url.com/api/v1"
         }
     ]

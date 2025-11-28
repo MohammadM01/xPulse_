@@ -19,7 +19,7 @@ Instrumentator().instrument(app).expose(app)
 
 @app.get("/")
 def root():
-    return {"message": "Welcome to XPulse: The Tribunal API"}
+    return {"message": "Welcome to xPulse API"}
 
 from backend.routers import webhook, cliq, widget, direct_mint
 app.include_router(webhook.router, prefix=settings.API_V1_STR + "/webhooks", tags=["webhooks"])

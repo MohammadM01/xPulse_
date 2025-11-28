@@ -1,13 +1,5 @@
 /*
  * Zoho Books Custom Button Script: "Mint to Polygon"
- * 
- * Instructions:
- * 1. Go to Settings -> Preferences -> Invoices.
- * 2. Click "Field Customization" -> "Custom Buttons" -> "+ New Custom Button".
- * 3. Name: "Mint to Polygon".
- * 4. Position: "List View" or "Details View".
- * 5. Paste this script.
- * 6. Replace 'YOUR_BACKEND_URL' with your actual URL (e.g., https://xpulse.onrender.com).
  */
 
 invoiceID = invoice.get("invoice_id");
@@ -20,10 +12,14 @@ payload.put("invoice_id", invoiceID);
 payload.put("amount", amount);
 payload.put("payer_name", customerName);
 
-// Call XPulse Backend
+// --- IMPORTANT: REPLACE THE URL BELOW ---
+backendUrl = "YOUR_NGROK_URL_HERE"; 
+// Example: backendUrl = "https://a1b2-c3d4.ngrok-free.app";
+
+// Call xPulse Backend
 response = invokeurl
 [
-	url :"YOUR_BACKEND_URL/api/v1/direct-mint"
+	url : backendUrl + "/api/v1/direct-mint"
 	type :POST
 	parameters :payload.toString()
     headers : {"Content-Type": "application/json"}
@@ -31,8 +27,14 @@ response = invokeurl
 
 info response;
 
+resultMap = Map();
+
 if (response.get("status") == "minting_started") {
-	return "✅ Minting Process Started!";
+	resultMap.put("message", "✅ Minting Process Started!");
+    resultMap.put("code", 0); // Success
 } else {
-	return "❌ Error: " + response.get("reason");
+	resultMap.put("message", "❌ Error: " + response.get("reason"));
+    resultMap.put("code", 1); // Failure
 }
+
+return resultMap;

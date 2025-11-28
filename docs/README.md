@@ -1,4 +1,4 @@
-# XPulse: The Tribunal
+# xPulse
 - Node.js 16+
 - PostgreSQL
 - Redis
@@ -6,6 +6,9 @@
 - Polygon Amoy Testnet Wallet (with MATIC)
 - **[Environment Setup Guide](ENV_SETUP.md)**: Instructions for obtaining API keys.
 - **[Deployment Guide](DEPLOYMENT.md)**: How to deploy to Render or use Ngrok.
+- **[User Guide](USER_GUIDE.md)**: Step-by-step instructions for the demo flow.
+- **[Button Setup Guide](ZOHO_BUTTON_SETUP.md)**: Detailed instructions for configuring the Zoho Books button.
+- **[Hackathon Submission Info](SUBMISSION.md)**: Project description and video script.
 
 ### 2. Backend Setup
 1.  Navigate to `/backend`.
@@ -28,28 +31,20 @@
     - Use `/zoho-assets/bot_handler.deluge` for the bot logic.
     - Configure the Message Handler and Button Actions to point to your backend URL (use ngrok for local dev).
 
-## 🎬 Demo Script (For Judges)
+## 🎬 Demo Script (Web2 to Web3 in One Click)
 
 **Step 1: The Trigger**
-1.  Open **Zoho Books**.
-2.  Create a new Invoice for **$5,000** (must be > $1,000).
-3.  Mark the invoice as **Paid**.
-4.  *Observation*: The **XPulse Bot** in Zoho Cliq posts an "🚨 Tribunal Activated" card.
+1.  Open **Zoho Books** and create an Invoice.
+2.  Click the **"Mint to Polygon"** button (Custom Button).
+3.  *Observation*: You get a success message "✅ Minting Process Started!".
 
-**Step 2: The Tribunal (Multi-Sig)**
-1.  **User A** (You) clicks `[✅ Approve]` on the card.
-    - *Observation*: Card updates to "1/2 Approvals (User A)".
-2.  **User B** (Another account or simulated) clicks `[✅ Approve]`.
-    - *Observation*: Card updates to "2/2 Approvals. Minting...".
+**Step 2: The Blockchain**
+1.  The backend immediately hashes the invoice data and submits it to **Polygon**.
+2.  *Observation*: The backend logs show the **Transaction Hash**.
 
-**Step 3: The Blockchain**
-1.  Wait for a few seconds.
-2.  The backend worker signs the transaction and submits it to Polygon Amoy.
-3.  *Observation*: The Cliq card updates with a **Green Badge** and a link to **PolygonScan**.
-
-**Step 4: The Widget**
-1.  Open the **XPulse Widget** in the Cliq sidebar.
-2.  *Observation*: See the list of verified invoices with their on-chain status.
+**Step 3: Verification**
+1.  Open the **xPulse Widget** in Zoho Cliq.
+2.  *Observation*: The invoice appears with status **Minted** and a link to **PolygonScan**.
 
 ## 🛠️ Troubleshooting
 - Ensure Redis is running.

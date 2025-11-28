@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: xpulse
+    env: python
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.0
+      - key: SYNC_TASKS
+        value: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: xpulse-db
+          property: connectionString
+      - key: ZOHO_BOOKS_AUTHTOKEN
+        sync: false
+      - key: ZOHO_ORG_ID
+        sync: false
+      - key: POLYGON_RPC_URL
+        sync: false
+      - key: PRIVATE_KEY
+        sync: false
+      - key: CONTRACT_ADDRESS
+        sync: false
+
+databases:
+  - name: xpulse-db
+    plan: free

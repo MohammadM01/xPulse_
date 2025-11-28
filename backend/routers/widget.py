@@ -10,31 +10,65 @@ settings = get_settings()
 @router.get("/history")
 def widget_history(db: Session = Depends(get_db)):
     """
-    Return ZML for the sidebar widget showing last 10 invoices.
+    Return Rich ZML for the sidebar widget.
     """
-    invoices = db.query(Invoice).order_by(Invoice.created_at.desc()).limit(10).all()
+    # Fetch data
+    pending = db.query(Invoice).filter(Invoice.status == "pending_tribunal").order_by(Invoice.created_at.desc()).limit(5).all()
+    minted = db.query(Invoice).filter(Invoice.status == "minted").order_by(Invoice.created_at.desc()).limit(5).all()
     
-    rows = []
-    for inv in invoices:
-        status_icon = "✅" if inv.status == "minted" else "⏳" if inv.status == "pending_tribunal" else "❌"
+    def build_table(invoices, title):
+        if not invoices:
+            return {"type": "text", "text": f"No {title} invoices found.", "color": "grey"}
+            
+        rows = []
+        # Header
         rows.append({
             "type": "row",
             "children": [
-                {"type": "text", "text": f"{status_icon} {inv.id}"},
-                {"type": "text", "text": f"${inv.amount}"},
-                {"type": "text", "text": inv.status}
+                {"type": "text", "text": "ID", "weight": "bold"},
+                {"type": "text", "text": "Amount", "weight": "bold"},
+                {"type": "text", "text": "Status", "weight": "bold"}
             ]
         })
+        
+        for inv in invoices:
+            status_icon = "✅" if inv.status == "minted" else "⏳"
+            rows.append({
+                "type": "row",
+                "children": [
+                    {"type": "text", "text": inv.id},
+                    {"type": "text", "text": f"${inv.amount}"},
+                    {"type": "text", "text": f"{status_icon} {inv.status}"}
+                ]
+            })
+        
+        return {
+            "type": "table",
+            "title": title,
+            "data": rows
+        }
 
+    # Construct ZML with Tabs
     zml = {
-        "type": "page",
-        "children": [
+        "type": "tabs",
+        "tabs": [
             {
-                "type": "table",
-                "data": rows
+                "title": "Minted 🟢",
+                "id": "minted",
+                "elements": [
+                    {"type": "title", "text": "Verified On-Chain"},
+                    build_table(minted, "Minted Invoices")
+                ]
+            },
+            {
+                "title": "Pending ⏳",
+                "id": "pending",
+                "elements": [
+                    {"type": "title", "text": "Awaiting Approval"},
+                    build_table(pending, "Pending Invoices")
+                ]
             }
         ]
     }
     
-    # Wrap in standard ZML response structure if needed by Cliq
     return {"output": zml}
