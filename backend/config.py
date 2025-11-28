@@ -1,6 +1,8 @@
 from pydantic_settings import BaseSettings
 from functools import lru_cache
 
+from typing import Optional
+
 class Settings(BaseSettings):
     PROJECT_NAME: str = "xPulse"
     VERSION: str = "1.0.0"
@@ -13,7 +15,7 @@ class Settings(BaseSettings):
     POSTGRES_PORT: str = "5432"
     POSTGRES_DB: str = "xpulse_tribunal"
     
-    DATABASE_URL: str | None = None
+    DATABASE_URL: Optional[str] = None
 
     @property
     def sync_database_url(self) -> str:

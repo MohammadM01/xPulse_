@@ -7,32 +7,44 @@ For the Zoho CliqTrix Hackathon, you have two main options for deployment:
 
 ---
 
-## Option 1: Cloud Deployment (Render.com)
-Render is excellent because it supports Python, PostgreSQL, and Redis natively.
+## Option 1: Free Cloud Deployment (Render Manual Setup)
+
+This method is **100% FREE** and gives you a permanent URL.
 
 ### 1. Prepare your Code
-*   Ensure you have a `requirements.txt` (we created this).
-*   Ensure you have a `Procfile` (optional, but good practice) or just use the start command.
 *   Push your code to **GitHub**.
 
-### 2. Create Services on Render
-1.  **Sign up** at [render.com](https://render.com).
-2.  **New Web Service**:
-    *   Connect your GitHub repo.
-    *   **Runtime**: Python 3.
-    *   **Build Command**: `pip install -r backend/requirements.txt`
-    *   **Start Command**: `uvicorn backend.main:app --host 0.0.0.0 --port 10000`
-    *   **Environment Variables**: Add all variables from your `backend/.env` (POSTGRES_*, REDIS_*, ZOHO_*, POLYGON_*).
-3.  **New PostgreSQL**:
-    *   Create a managed PostgreSQL database.
-    *   Copy the `Internal Database URL` and set it as `DATABASE_URL` in your Web Service environment variables.
-4.  **New Redis**:
-    *   Create a Redis instance.
-    *   Copy the `Internal Redis URL` and set it as `REDIS_URL` in your Web Service.
+### 2. Create Database (Free PostgreSQL)
+1.  Log in to [dashboard.render.com](https://dashboard.render.com/).
+2.  Click **New +** -> **PostgreSQL**.
+3.  **Name**: `xpulse-db`
+4.  **Instance Type**: Select **"Free"**.
+5.  Click **Create Database**.
+6.  **Wait** for it to be created.
+7.  **Copy** the `Internal Database URL` (starts with `postgres://...`).
 
-### 3. Update Zoho
-*   Once deployed, Render will give you a URL (e.g., `https://xpulse-tribunal.onrender.com`).
-*   Update your **Zoho Books Extension** and **Cliq Bot** to use this new URL instead of `localhost`.
+### 3. Create Web Service (Free)
+1.  Click **New +** -> **Web Service**.
+2.  Connect your **GitHub repository**.
+3.  **Name**: `xpulse-api`
+4.  **Instance Type**: Select **"Free"**.
+5.  **Build Command**: `pip install -r backend/requirements.txt`
+6.  **Start Command**: `python -m uvicorn backend.main:app --host 0.0.0.0 --port $PORT`
+7.  **Environment Variables** (Click "Advanced"):
+    *   `PYTHON_VERSION`: `3.9.0`
+    *   `SYNC_TASKS`: `true` (This is important! It disables Redis so you don't need to pay).
+    *   `DATABASE_URL`: Paste the `Internal Database URL` you copied earlier.
+    *   `ZOHO_BOOKS_AUTHTOKEN`: Enter `unused` (We don't need this for the Direct Mint flow).
+    *   `ZOHO_ORG_ID`: Enter `unused`.
+    *   `POLYGON_RPC_URL`: Your RPC URL.
+    *   `PRIVATE_KEY`: Your Wallet Private Key.
+    *   `CONTRACT_ADDRESS`: Your deployed contract address.
+8.  Click **Create Web Service**.
+
+### 4. Update Zoho
+1.  Wait for the deploy to finish (Green "Live" badge).
+2.  Copy your new URL (e.g., `https://xpulse-api.onrender.com`).
+3.  Update your **Zoho Books Custom Button** with this new URL.
 
 ---
 
