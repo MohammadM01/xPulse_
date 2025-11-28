@@ -48,6 +48,8 @@ def mint_proof_task(invoice_id: str, approver_ids: list):
             # TODO: Update Cliq Message to "Minted"
             print(f"Should update Cliq message for {invoice_id} to SUCCESS")
             
+            return tx_hash
+            
     except Exception as e:
         print(f"❌ Error in minting task: {e}")
         try:

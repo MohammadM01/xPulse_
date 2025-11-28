@@ -63,7 +63,8 @@ info response;
 resultMap = Map();
 
 if (response.get("status") == "minting_started") {
-	resultMap.put("message", "✅ Minting Process Started!");
+    txHash = response.get("tx_hash");
+	resultMap.put("message", "✅ Minting Process Started! Tx Hash: " + txHash);
     resultMap.put("code", 0); // Success
 } else {
 	resultMap.put("message", "❌ Error: " + response.get("reason"));

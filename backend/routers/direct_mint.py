@@ -53,10 +53,11 @@ async def direct_mint(payload: DirectMintRequest, db: Session = Depends(get_db))
     # For direct mint, we might not have "approvers", so we use a system identifier
     approvers = ["MANUAL_TRIGGER"]
 
+    tx_hash = None
     if settings.SYNC_TASKS:
         print(f"Running Direct Mint task synchronously for {invoice_id}")
-        mint_proof_task(invoice_id, approvers)
+        tx_hash = mint_proof_task(invoice_id, approvers)
     else:
         q.enqueue(mint_proof_task, invoice_id, approvers, retry=Retry(max=3, interval=[10, 30, 60]))
 
-    return {"status": "minting_started", "invoice_id": invoice_id}
+    return {"status": "minting_started", "invoice_id": invoice_id, "tx_hash": tx_hash}
