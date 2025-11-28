@@ -100,3 +100,28 @@ async def cliq_interaction(request: Request, db: Session = Depends(get_db)):
         return {"type": "update", "text": f"Invoice flagged by User {user_id}. Process halted."}
 
     return {"text": "Unknown action"}
+
+@router.post("/command")
+async def cliq_command(request: Request, db: Session = Depends(get_db)):
+    """
+    Handle Slash Command (e.g., /xpulse)
+    """
+    # Fetch data
+    pending = db.query(Invoice).filter(Invoice.status == "pending_tribunal").order_by(Invoice.created_at.desc()).limit(5).all()
+    minted = db.query(Invoice).filter(Invoice.status == "minted").order_by(Invoice.created_at.desc()).limit(5).all()
+
+    text = "### 🔗 Verified On-Chain\n"
+    if not minted:
+        text += "No minted invoices yet.\n"
+    else:
+        for inv in minted:
+            text += f"* **Invoice #{inv.id}**: ${inv.amount} (✅ Minted)\n"
+
+    text += "\n### ⏳ Pending Approval\n"
+    if not pending:
+        text += "No pending invoices.\n"
+    else:
+        for inv in pending:
+            text += f"* **Invoice #{inv.id}**: ${inv.amount} (⏳ Pending)\n"
+
+    return {"text": text}

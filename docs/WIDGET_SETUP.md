@@ -28,6 +28,7 @@ Paste this code into the Deluge editor for the Widget:
 backendUrl = "YOUR_RENDER_URL_HERE"; 
 // Example: backendUrl = "https://xpulse-api.onrender.com";
 
+// Call the backend to get the HTML
 response = invokeurl
 [
 	url : backendUrl + "/api/v1/widget/history"
@@ -43,17 +44,37 @@ return response;
 1.  Go back to the main Zoho Cliq interface.
 2.  Look at the **Right Sidebar** (Widgets bar).
 3.  Click the **xPulse Tribunal** icon.
-4.  You should see "xPulse Widget is Online! 🚀".
+4.  You should see your **Minted** and **Pending** invoices in a nice list!
 
 ## 🛠️ Troubleshooting
 If it still doesn't work, try pasting this **Hardcoded Script** in the Deluge editor to verify your Widget settings are correct:
 
 ```javascript
-// Hardcoded Test: HTML
-page = Map();
-page.put("type", "html");
-page.put("html", "<h1>It Works!</h1>");
+// Robust Debug Script (Single Return Pattern)
+// REPLACE THIS URL
+backendUrl = "YOUR_RENDER_URL_HERE"; 
 
-return page;
+// Initialize result map
+result = Map();
+
+try {
+    response = invokeurl
+    [
+        url : backendUrl + "/api/v1/widget/history"
+        type :GET
+    ];
+    
+    if (response == null) {
+        result.put("type", "html");
+        result.put("html", "<h1>❌ Error: Null Response</h1>");
+    } else {
+        result = response;
+    }
+    
+} catch (e) {
+    result.put("type", "html");
+    result.put("html", "<h1>❌ Error: " + e + "</h1>");
+}
+
+return result;
 ```
-If this works, the issue is with the Backend URL or connection.
